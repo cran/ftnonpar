@@ -1,0 +1,558 @@
+C
+C
+C
+C
+      SUBROUTINE FRUN(Y,LR,UR,LL,UL,FN,IND,ILOC,N,LN,ALPHA,
+     +                                      LNRED,NXL,NEXT)
+      DOUBLE PRECISION Y(N),LR(N),UR(N),LL(2*N),UL(2*N),FN(N)
+      INTEGER IND(N),ILOC(N)
+      DOUBLE PRECISION ALPHA
+C
+      LOGICAL CONSTANT,ISOINIT,INCREASE
+C
+C
+      IF (LN.LE.0) THEN
+         LN=DINT(1.4427D0*(DLOG(DBLE(N))-DLOG(-DLOG(ALPHA)))-2)+1
+      ENDIF
+C
+C
+      CALL BNDS(Y,LL,UL,LR,UR,N,LN,IND,NEXT,CONSTANT)
+C
+      IF (LNRED.EQ.0) THEN
+         LN3=LN
+         LN1=1
+ 10      CONTINUE
+         LN2=(LN1+LN3)/2
+         CALL BNDS(Y,LL,UL,LR,UR,N,LN2,IND,NEXT2,CONSTANT)
+         IF (LN2.EQ.LN3) THEN
+            LN=LN2
+            GOTO 20
+         ENDIF
+         IF (NEXT2.GT.NEXT) THEN
+            LN1=LN2+1
+         ELSE
+            LN3=LN2
+         ENDIF
+         GOTO 10
+      ENDIF
+C
+ 20   CONTINUE
+C
+      IF (DMIN1(UL(1),UR(1)).GT.1D34) THEN
+         ISOINIT=.FALSE.
+      ELSE
+         ISOINIT=.TRUE.
+      ENDIF
+
+C
+      IF (CONSTANT) THEN
+         CALL BNDS3(Y,LR,UR,N,LN,INCREASE)
+         CALL BNDS3(Y,LL,UL,N,LN,.NOT.INCREASE)
+         DO 35 I=1,N
+            IF (I.LE.LN.OR.I.GE.N-LN+1) THEN
+               LR(I)=-1D35
+               UR(I)=1D35
+            ELSE
+               LR(I)=DMIN1(LR(I),LL(I))
+               UR(I)=DMAX1(UR(I),UL(I))
+            ENDIF
+ 35      CONTINUE
+         RETURN
+      ENDIF
+C
+      INCREASE=ISOINIT
+      J=1
+      DO 40 I=1,N
+ 30      CONTINUE
+         IF (J.GT.NEXT.AND.INCREASE) THEN
+            UR(I)=UL(I)
+         ELSEIF (J.GT.NEXT.AND..NOT.INCREASE) THEN
+            LR(I)=LL(I)
+         ELSEIF (I.LT.IND(2*(J-1)+1).AND.INCREASE) THEN   
+            UR(I)=UL(I)
+         ELSEIF (I.LT.IND(2*(J-1)+1).AND..NOT.INCREASE) THEN 
+            LR(I)=LL(I)
+         ELSEIF(I.LE.IND(2*J).AND.INCREASE) THEN
+            UR(I)=1D35
+            LR(I)=DMIN1(LR(I),LL(I))
+         ELSEIF(I.LE.IND(2*J).AND..NOT.INCREASE) THEN
+            UR(I)=DMAX1(UR(I),UL(I))
+            LR(I)=-1D35
+         ELSEIF (I.GT.IND(2*J)) THEN
+            INCREASE=.NOT.INCREASE
+            J=J+1
+            GOTO 30
+         ENDIF
+ 40   CONTINUE
+C
+      INCREASE=ISOINIT
+C
+      IF (ILOC(1).GT.0) THEN
+         NEXT=NXL
+         DO 45 I=1,NEXT
+            ILOC(I)=MIN0(IND(2*I)-LN/2,ILOC(I))
+            ILOC(I)=MAX0(IND(2*I-1)+(LN-1)/2,ILOC(I))
+ 45      CONTINUE
+         GOTO 60
+      ENDIF
+C
+      IF (NEXT.EQ.0) THEN
+         CALL FNCTN(Y,LR,UR,FN,N,LN,INCREASE)
+         RETURN
+      ENDIF
+C
+      DO 50 I=1,NEXT
+         ILOC(I)=(IND(2*I-1)+IND(2*I))/2
+ 50   CONTINUE
+C
+ 60   CONTINUE
+C
+      N1=N+1   
+      CALL BNDS4(Y,LL,UL,LL(N1),UL(N1),N,LN,ILOC,NEXT,INCREASE)
+      
+C
+      INCREASE=ISOINIT
+      CALL FNCTN(Y,LL,UL,FN,N,LN,INCREASE)
+C
+      END
+C
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C
+C     LN = RUN LENGTH
+C
+C
+      SUBROUTINE BNDS(Y,LL,UL,LR,UR,N,LN,INDEX,NEXT,CONSTANT)
+      DOUBLE PRECISION Y(N),UL(N),LL(N),UR(N),LR(N)
+      INTEGER INDEX(N)
+      LOGICAL CONSTANT
+C
+      LOGICAL ISOLAST
+C
+      CONSTANT=.FALSE.
+C
+      DO 10 I=1,N
+         UR(I)=1D35
+         LR(I)=-1D35
+         UL(I)=1D35
+         LL(I)=-1D35
+ 10   CONTINUE
+
+      CALL ANTIUPP(Y,UR,N,NNA,LN)
+      CALL ISOLOW(Y,LR,N,NNB,LN)
+      IF (NNA.EQ.NNB) THEN
+         CONSTANT=.TRUE.
+         NEXT=0
+         RETURN
+      ENDIF
+C
+      IF (NNB.GT.NNA) THEN
+         CALL BNDS1(Y,LR,UR,N,LN,ISOLAST,INDEX,NEXT)
+      ELSE
+         CALL BNDS2(Y,LR,UR,N,LN,ISOLAST,INDEX,NEXT)
+      ENDIF
+C
+      CALL REVERSE(Y,N)
+      NNX=2*NEXT+1
+      IF (ISOLAST) THEN
+         CALL BNDS2(Y,LL,UL,N,LN,ISOLAST,INDEX(NNX),NEXT)
+      ELSE
+         CALL BNDS1(Y,LL,UL,N,LN,ISOLAST,INDEX(NNX),NEXT)
+      ENDIF
+C
+      CALL REVERSE(Y,N)
+      CALL REVERSE(UL,N)
+      CALL REVERSE(LL,N)
+      CALL IREVERSE(INDEX(NNX),NEXT)
+C
+      DO 30 I=NEXT,1,-1
+         INDEX(2*I)=INDEX(I)
+         INDEX(2*I-1)=N-INDEX(NNX+I-1)+1
+ 30   CONTINUE
+C
+      END
+C
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C      
+C
+C
+      SUBROUTINE BNDS1(Y,L,U,N,LN,ISOLAST,INDEX,NEXT)
+      DOUBLE PRECISION Y(N),U(N),L(N)
+      INTEGER INDEX(N)
+      LOGICAL ISOLAST
+C
+C
+      K=1
+      NEXT=0
+C      
+ 10   CONTINUE
+C
+      CALL ISOLOW(Y(K),L(K),N-K+1,NN,LN)
+      IF (NN.EQ.N-K+1) THEN
+         ISOLAST=.TRUE.
+         RETURN 
+      ENDIF
+C
+      NEXT=NEXT+1
+      INDEX(NEXT)=NN+K-1
+      K=K+NN-LN
+C
+      CALL ANTIUPP(Y(K),U(K),N-K+1,NN,LN)
+      IF (NN.EQ.N-K+1) THEN
+         ISOLAST=.FALSE.
+         RETURN 
+      ENDIF
+C 
+      NEXT=NEXT+1
+      INDEX(NEXT)=NN+K-1
+      K=K+NN-LN
+      GOTO 10
+C
+      END
+C
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C      
+C
+C
+      SUBROUTINE BNDS2(Y,L,U,N,LN,ISOLAST,INDEX,NEXT)
+      DOUBLE PRECISION Y(N),U(N),L(N)
+      INTEGER INDEX(N)
+      LOGICAL ISOLAST
+C
+C
+      NEXT=0
+      K=1
+C      
+ 10   CONTINUE
+C
+      CALL ANTIUPP(Y(K),U(K),N-K+1,NN,LN)
+      IF (NN.EQ.N-K+1) THEN
+         ISOLAST=.FALSE.
+         RETURN 
+      ENDIF
+C
+      NEXT=NEXT+1
+      INDEX(NEXT)=NN+K-1
+      K=K+NN-LN
+C
+      CALL ISOLOW(Y(K),L(K),N-K+1,NN,LN)
+      IF (NN.EQ.N-K+1) THEN
+         ISOLAST=.TRUE.
+         RETURN 
+      ENDIF
+C
+      NEXT=NEXT+1
+      INDEX(NEXT)=NN+K-1
+      K=K+NN-LN
+      GOTO 10
+C
+      END
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C      
+C
+C
+      SUBROUTINE BNDS3(Y,L,U,N,LN,INCREASE)
+      DOUBLE PRECISION Y(N),L(N),U(N)
+      LOGICAL INCREASE
+C
+C
+      M=MIN0(N,LN)
+      IF (INCREASE) THEN
+         DO 10 I=1,M
+            L(I)=-1D35
+ 10      CONTINUE
+         IF  (M.EQ.N) RETURN
+         DO 20 I=LN+1,N
+            CALL MINIMUM(Y(I-LN),LN+1,1,L(I))
+            L(I)=DMAX1(L(I),L(I-1))
+ 20      CONTINUE
+         DO 30 I=N,N-LN+1,-1
+            U(I)=1D35
+ 30      CONTINUE
+         DO 40 I=N-LN,1,-1
+            CALL MAXIMUM(Y(I),LN+1,1,U(I))
+            U(I)=DMIN1(U(I),U(I+1))
+ 40      CONTINUE
+C
+      ELSE
+         DO 50 I=1,M
+            U(I)=1D35
+ 50      CONTINUE
+         IF  (M.EQ.N) RETURN
+         DO 60 I=LN+1,N
+            CALL MAXIMUM(Y(I-LN),LN+1,1,U(I))
+            U(I)=DMIN1(U(I),U(I-1))
+ 60      CONTINUE
+         DO 70 I=N,N-LN+1,-1
+            L(I)=-1D35
+ 70      CONTINUE
+         DO 80 I=N-LN,1,-1
+            CALL MINIMUM(Y(I),LN+1,1,L(I))
+            L(I)=DMAX1(L(I),L(I+1))
+ 80      CONTINUE
+      ENDIF
+C
+      END
+C
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C
+C
+C
+c      CALL BNDS4(Y,LL,UL,LL(N1),UL(N1),N,LN,ILOC,NEXT,INCREASE)
+      SUBROUTINE BNDS4(Y,L,U,AL,AU,N,LN,ILOC,NEXT,ISOTONE)
+      DOUBLE PRECISION Y(N),L(N),U(N),AL(N),AU(N)
+      INTEGER ILOC(NEXT)
+      LOGICAL ISOTONE
+C
+C
+      DO 100 I=1,N
+         AU(I)=1D35
+         U(I)=1D35
+         AL(I)=-1D35
+         L(I)=-1D35
+ 100  CONTINUE
+C
+      IS=1
+      NL=ILOC(1)+LN/2
+      IEXT=1
+C
+ 10   CONTINUE
+C
+      CALL BNDS3(Y(IS),L(IS),U(IS),NL,LN,ISOTONE)
+C
+      ISOTONE=.NOT.ISOTONE
+      IS=ILOC(IEXT)-(LN-1)/2
+      IF (IEXT.EQ.NEXT) THEN
+         NL=N-IS+1
+         CALL BNDS3(Y(IS),AL(IS),AU(IS),NL,LN,ISOTONE)
+         GOTO 20
+      ELSE
+         IEXT=IEXT+1
+         NL=MIN0(ILOC(IEXT)+LN/2-IS+1,N-IS+1)
+         GOTO 10
+      ENDIF
+C
+ 20   CONTINUE
+C
+      DO 30 I=1,N
+         IF (L(I).GT.-1D34.AND.AL(I).GT.-1D34) THEN
+            L(I)=DMIN1(L(I),AL(I))
+         ELSE
+            L(I)=DMAX1(L(I),AL(I))
+         ENDIF
+         IF (U(I).LT.1D34.AND.AU(I).LT.1D34) THEN
+            U(I)=DMAX1(U(I),AU(I))
+         ELSE
+            U(I)=DMIN1(U(I),AU(I))
+         ENDIF
+ 30   CONTINUE
+C
+      END
+C
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C
+C
+C
+      SUBROUTINE ANTIUPP(Y,U,N,NN,LN)
+      DOUBLE PRECISION Y(N),U(N)
+C
+C
+      NM=MIN0(N,LN)
+c      DO 10 I=1,NM
+c         U(I)=1D35
+c 10   CONTINUE
+      IF (N.LE.LN) THEN
+         NN=N
+         RETURN
+      ENDIF
+C
+      I=LN+1
+ 20   CONTINUE
+      J=I-LN
+      CALL MAXIMUM(Y(J),LN+1,1,U(I))
+      U(I)=DMIN1(U(I-1),U(I))
+      DO 30 II=J,I
+         IF (Y(II).LE.U(II)) GOTO 40
+ 30   CONTINUE
+      NN=I-1
+      U(I)=1D35
+      RETURN
+C
+ 40   IF (I.EQ.N) THEN
+         NN=N
+         RETURN
+      ELSE
+         I=I+1
+         GOTO 20
+      ENDIF
+C
+      END
+C
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C
+C
+C
+      SUBROUTINE ISOLOW(Y,L,N,NN,LN)
+      DOUBLE PRECISION Y(N),L(N)
+C
+C
+      NM=MIN0(N,LN)
+c      DO 10 I=1,NM
+c         L(I)=-1D35
+c 10   CONTINUE
+      IF (N.LE.LN) THEN
+         NN=N
+         RETURN
+      ENDIF
+C
+      I=LN+1
+ 20   CONTINUE
+      J=I-LN
+      CALL MINIMUM(Y(J),LN+1,1,L(I))
+      L(I)=DMAX1(L(I-1),L(I))
+      DO 30 II=J,I
+         IF (Y(II).GE.L(II)) GOTO 40
+ 30   CONTINUE
+      NN=I-1
+      L(I)=-1D35
+      RETURN
+C
+ 40   IF (I.EQ.N) THEN
+         NN=N
+         RETURN
+      ELSE
+         I=I+1
+         GOTO 20
+      ENDIF
+C
+      END
+C
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C
+C
+C
+      SUBROUTINE FNCTN(Y,L,U,F,N,LN,INCREASE)
+      DOUBLE PRECISION Y(N),L(N),U(N),F(N)
+      LOGICAL INCREASE
+C
+C
+      M=MIN0(N,LN)
+      IF (INCREASE) THEN
+         CALL MINIMUM(Y,M,1,F(1))
+      ELSE
+         CALL MAXIMUM(Y,M,1,F(1))
+      ENDIF
+C
+      DO 10 I=2,M
+         F(I)=F(1)
+ 10   CONTINUE
+      IF (M.EQ.N) RETURN
+C
+      I=LN+1
+ 20   CONTINUE
+      IF(I.GT.N) RETURN
+      IF (F(I-1).LE.U(I).AND.F(I-1).GE.L(I)) THEN
+         F(I)=F(I-1)
+      ELSEIF (F(I-1).GT.U(I)) THEN
+         J=I
+ 30      CONTINUE
+         IF (Y(J).GE.L(J)) THEN
+            DO 40 II=J,I
+               IF (L(J).GT.-1D34) THEN
+                  F(II)=L(J)
+               ELSE
+                  F(II)=Y(J)
+               ENDIF
+ 40         CONTINUE
+         ELSE
+            J=J-1
+            GOTO 30
+         ENDIF
+      ELSE
+         J=I
+ 50      CONTINUE
+         IF (Y(J).LE.U(J)) THEN
+            DO 60 II=J,I
+               IF (U(J).LT.1D34) THEN
+                  F(II)=U(J)
+               ELSE
+                  F(II)=Y(J)
+               ENDIF
+ 60         CONTINUE
+         ELSE
+            J=J-1
+            GOTO 50
+         ENDIF
+      ENDIF
+      I=I+1
+      GOTO 20
+C
+      END
+C
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C
+C
+C
+      SUBROUTINE MAXIMUM(Y,M,N,MAXY)
+      DOUBLE PRECISION Y(M,N),MAXY(N)
+C
+C
+      DO 20 J=1,N
+         MAXY(J)=-1D35
+         DO 10 I=1,M
+            MAXY(J)=DMAX1(MAXY(J),Y(I,J))
+ 10      CONTINUE
+ 20   CONTINUE
+      END
+C
+C
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C
+C
+      SUBROUTINE MINIMUM(Y,M,N,MINY)
+      DOUBLE PRECISION Y(M,N),MINY(N)
+C
+C
+      DO 20 J=1,N
+         MINY(J)=1D35
+         DO 10 I=1,M
+            MINY(J)=DMIN1(MINY(J),Y(I,J))
+ 10      CONTINUE
+ 20   CONTINUE
+      END
+C
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C
+C
+C
+      SUBROUTINE REVERSE(X,N)
+      DOUBLE PRECISION X(N)
+      DOUBLE PRECISION A
+C
+C
+C
+      DO 10 I=1,N/2
+         A=X(I)
+         X(I)=X(N-I+1)
+         X(N-I+1)=A
+ 10   CONTINUE
+      END
+C
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C
+C
+C
+      SUBROUTINE IREVERSE(II,N)
+      INTEGER II(N)
+C
+C
+C
+      DO 10 J=1,N/2
+         K=II(J)
+         II(J)=II(N-J+1)
+         II(N-J+1)=K
+ 10   CONTINUE
+      END   
+C
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+   

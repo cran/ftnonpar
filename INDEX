@@ -1,0 +1,18 @@
+balloon                 Data from a weather balloon
+dclaw                   The Claw Distribution
+djdata                  Donoho-Johnstone test signals
+frun                    Runs and local extremes
+kkuip                   Generalized Kuiper Metrics
+l1pmreg                 Piecewise monotone nonparameric quantile
+                        regression
+mintvmon                Minimization of total variation
+pmden                   Piecewise monotone density estimation with
+                        taut strings
+pmlogreg                Piecewise monotone logistic regression with
+                        taut strings
+pmreg                   Piecewise monotone regression with taut
+                        strings
+pmspec                  Piecewise monotone spectral density
+                        approximation with taut strings
+rclaw                   The Claw Distribution
+rtennormal              Mixture of ten normal distributions

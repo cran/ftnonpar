@@ -156,7 +156,7 @@ c(50, 100, 200, 500, 1000, 2000, 5000)
 "kkuip" <- function (x, k = 1)
 {
     tmp <- .C("kkuip", as.double(x), as.integer(length(x)), as.integer(k),
-        norm = double(k), a = integer(k), b = integer(k))
+        norm = double(k), a = integer(k), b = integer(k),PACKAGE="ftnonpar")
     list(metric = tmp$norm, a = tmp$a, b = tmp$b)
 }
 "rtennormal" <-

@@ -83,7 +83,7 @@ else
 
 print(c("eps is",eps))
 tmp <- .C("genstring",y=as.double(y),as.integer(length(y)),as.double(lambda),
-as.double(beta),as.integer(method),as.double(eps),kext=as.integer(0))
+as.double(beta),as.integer(method),as.double(eps),kext=as.integer(0),PACKAGE="ftnonpar")
 
 list(y=tmp$y,kext=tmp$kext)
 }
@@ -108,7 +108,7 @@ else
   lowerthresh <- -sqrt(thr.const*log(length(res)))*sigma*sqrt(1:length(res))
   }
 
-  .C("genmrcheck",res=as.double(c(0,cumsum(res))),as.integer(length(res)),as.double(lowerthresh),as.double(upperthresh),as.integer(DYADIC))$res[1:length(res)]
+  .C("genmrcheck",res=as.double(c(0,cumsum(res))),as.integer(length(res)),as.double(lowerthresh),as.double(upperthresh),as.integer(DYADIC),PACKAGE="ftnonpar")$res[1:length(res)]
 }
 
 

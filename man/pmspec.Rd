@@ -6,7 +6,7 @@
 Applies the taut string method to spectral densities.
 }
 \usage{
-pmspec(x, pks=0, alpha=0.9, sqzf=0.9, mult=F, lcl=F, ln=F, fig = F, pow=10^(-2))
+pmspec(x, pks=0, alpha=0.9, sqzf=0.9, mult=0, lcl=0, ln=0, fig = 0, pow=10^-2)
 }
 %- maybe also `usage' for other objects documented here.
 \arguments{

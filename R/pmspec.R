@@ -52,7 +52,8 @@
 		as.integer(kk),
 		as.integer(mult),
 		as.integer(lcl),
-		as.double(alpha)
+		as.double(alpha),
+                PACKAGE="ftnonpar"
 		)
 #	
               ###spectral density###

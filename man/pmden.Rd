@@ -6,7 +6,7 @@
 Applies the taut string method to one-dimensional data.
 }
 \usage{
-pmden(x, DISCR=F,verbose = F, bandwidth=-1, extrema.nr = -1, accuracy = mad(x)/1000,  extrema.mean = T,maxkuipnr=19,asympbounds=F, tolerance = 0.001)
+pmden(x, DISCR=FALSE,verbose = FALSE, bandwidth=-1, extrema.nr = -1, accuracy = mad(x)/1000,  extrema.mean = TRUE,maxkuipnr=19,asympbounds=FALSE, tolerance = 0.001)
 
 }
 %- maybe also `usage' for other objects documented here.

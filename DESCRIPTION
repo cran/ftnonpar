@@ -1,10 +1,10 @@
 Package: ftnonpar
-Version: 0.1-2
-Date: 2003-09-16
+Version: 0.1-3
+Date: 2005-01-07
 Title: Features and Strings for Nonparametric Regression
 Author: Laurie Davies <Laurie.Davies@uni-essen.de>
-         Arne Kovac <Arne.Kovac@uni-essen.de>
-Maintainer: Arne Kovac <Arne.Kovac@uni-essen.de>    
+         Arne Kovac <A.Kovac@bristol.ac.uk>  
+Maintainer: Arne Kovac <A.Kovac@bristol.ac.uk>   
 Description: The package contains R-functions to perform the 
      methods in nonparametric regression and    
      density estimation, described in 
@@ -14,4 +14,5 @@ Description: The package contains R-functions to perform the
 License: GPL version 2 or newer
 Copyright: Copyright (C) 2003 University of Duisburg-Essen, Essen,
   Germany
-URL: http://www.stat-math.uni-essen.de/~kovac/ftnonpar.html
+URL: http://www.maths.bris.ac.uk/~maxak/ftnonpar.html
+Packaged: Wed Jan 12 09:53:13 2005; hornik

@@ -1,7 +1,6 @@
 #include "math.h"
 #include "stdlib.h"
 #include "stdio.h"
-#include "values.h"
 
 void yams(double *y, int *n, double *thresh, int *method)
   {

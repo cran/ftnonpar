@@ -1,7 +1,6 @@
 #include "math.h"
 #include "stdlib.h"
 #include "stdio.h"
-#include "values.h"
 
 int dcomp(const double *a, const double *b)
   {

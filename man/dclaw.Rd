@@ -12,9 +12,6 @@ dclaw(x)
 \arguments{
   \item{x}{Vector of points where the claw density is evaluated.}
 }
-J.S. Marron and M.P. Wand.
-\newblock Exact mean integrated squared error.
-\newblock {\em Annals of Statistics}, 20:712--736, 1992.
 \references{Marron, J. S. and Wand, M. P. (1992) Exact mean integrated squared error}
 \author{Arne Kovac \email{Arne.Kovac@uni-essen.de}}
 \seealso{\code{\link{rclaw}}}

@@ -7,8 +7,8 @@
 Applies the generalized taut string method to quantile regression.   
 }
 \usage{
-quantpmreg(y, beta = 0.5, squeezing.factor = 0.5, verbose = F, localsqueezing = T, DYADIC = T, thr.const = 2, extrema.nr = -1, bandwidth = -1)
-l1pmreg(y, squeezing.factor = 0.5, verbose = F, localsqueezing = T, DYADIC = T, thr.const = 2, extrema.nr = -1, bandwidth = -1)
+quantpmreg(y, beta = 0.5, squeezing.factor = 0.5, verbose = FALSE, localsqueezing = TRUE, DYADIC = TRUE, thr.const = 2, extrema.nr = -1, bandwidth = -1)
+l1pmreg(y, squeezing.factor = 0.5, verbose = FALSE, localsqueezing = TRUE, DYADIC = TRUE, thr.const = 2, extrema.nr = -1, bandwidth = -1)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

@@ -2,7 +2,7 @@
 function (y, thresh,firstwidth=1) 
 {
     .C("multiwdwr", y = as.double(y), as.integer(length(y)), 
-        as.double(thresh),as.integer(firstwidth))$y
+        as.double(thresh),as.integer(firstwidth),PACKAGE="ftnonpar")$y
 }
 "pmreg" <-
 function (y, thr.const = 2.5, verbose = FALSE, extrema.nr = -1, 
@@ -93,7 +93,7 @@ function (ttt, fdist, y.low, y.up, y1 = 0.5 * (y.low[1] + y.up[1]),
             as.double(yn), as.integer(length(y.low)), tautstring = double(length(y.low) - 
                 1), knotsind = integer(length(y.low)), knotst = double(length(y.low)), 
             knotsy = double(length(y.low)), nknots = integer(1), 
-            nmax=integer(1),extrmean=as.integer(extrmean))
+            nmax=integer(1),extrmean=as.integer(extrmean),PACKAGE="ftnonpar")
         list(string = tmp$tautstring, knotsind = tmp$knotsind[1:tmp$nknots], 
             knotst = tmp$knotst[1:tmp$nknots], knotsy = tmp$knotsy[1:tmp$nknots], 
             nknots = tmp$nknots,nmax=tmp$nmax)

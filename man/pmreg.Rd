@@ -6,9 +6,9 @@
 Applies the taut string method to one-dimensional data.
 }
 \usage{
-pmreg(y, thr.const=2.5, verbose=F, extrema.nr=-1, bandwidth=-1, 
-sigma=-1, localsqueezing=T, squeezing.factor=0.5, tolerance=0.001,
-extrema.mean=T)
+pmreg(y, thr.const=2.5, verbose=FALSE, extrema.nr=-1, bandwidth=-1, 
+sigma=-1, localsqueezing=TRUE, squeezing.factor=0.5, tolerance=0.001,
+extrema.mean=TRUE)
 }
 %- maybe also `usage' for other objects documented here.
 \arguments{

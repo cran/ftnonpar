@@ -8,7 +8,7 @@ the function or a derivative under multiresolution constraints
 and monotonicity and convexity constraints.
 }
 \usage{
-mintvmon(y, sigma = -1, DYADIC = T, thresh = -1, method = 2, MONCONST = T, CONVCONST = F)
+mintvmon(y, sigma = -1, DYADIC = TRUE, thresh = -1, method = 2, MONCONST = TRUE, CONVCONST = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

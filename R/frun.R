@@ -49,7 +49,8 @@
 		as.double(alpha),
 		as.integer(mr),
 		as.integer(nxl),
-		integer(1)
+		integer(1),
+                PACKAGE="ftnonpar"
 		)
 #
 # OUTPUTS		

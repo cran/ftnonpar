@@ -2,8 +2,10 @@
 #include "stdlib.h"
 #include "stdio.h"
 
-int dcomp(const double *a, const double *b)
+int dcomp(const void* _a, const void* _b)
   {
+  const double* a = (const double*) _a;
+  const float* b = (const float*) _b;
   if(*a>*b) return 1;
   else if(*a==*b) return 0;
   else return -1;
@@ -11,7 +13,7 @@ int dcomp(const double *a, const double *b)
 
 void dqsort(double *x, int n)
   {
-  qsort(x,n,sizeof(double),(void *)(*dcomp));
+  qsort(x,n,sizeof(double),dcomp);
   }
 
 double genM(int left, int right, double x, int sign, double *y, double beta, int method, double eps)

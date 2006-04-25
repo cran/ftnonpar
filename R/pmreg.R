@@ -7,7 +7,7 @@ function (y, thresh,firstwidth=1)
 "pmreg" <-
 function (y, thr.const = 2.5, verbose = FALSE, extrema.nr = -1, 
     bandwidth = -1, sigma = -1, localsqueezing = TRUE, 
-    squeezing.factor = 0.5,tolerance=0.001,extrema.mean = TRUE) 
+    squeezing.factor = 0.5,tolerance=1e-08,extrema.mean = TRUE,DYADIC=TRUE) 
 {
  if (extrema.nr > -1) localsqueezing <- FALSE
     nsamp <- length(y)
@@ -33,7 +33,10 @@ function (y, thr.const = 2.5, verbose = FALSE, extrema.nr = -1,
           {
           residuals <- y - y.string
           residuals <- residuals - mean(residuals)
-          residuals.wr <- multiwdwr(residuals, sqrt(thr.const * log(nsamp)) * sigma)
+          if(DYADIC) 
+            residuals.wr <- multiwdwr(residuals, sqrt(thr.const * log(nsamp)) * sigma)
+          else
+            residuals.wr <- nondymwdr(residuals, sqrt(thr.const * log(nsamp)) * sigma)
           }
         if (verbose) {
             par(mfrow = c(2, 2))

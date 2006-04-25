@@ -795,7 +795,10 @@ if(zaehler!=1)
   currtv=0;
   for(i=1;i<*n;i++)
     currtv += fabs(f[i]-f[i-1]);
+/*
   printf("zaehler: %d -- TV is %f -- nact is %d -- maxband is %d\n",zaehler,currtv,nact,maxband);
+
+
 
 
 
@@ -807,14 +810,16 @@ if(*MONCONS && *CONVCONS)
       printf("MON %d hurt %3.15f\n",i,fderiv[i+1]);
       gets(dummy);
       }
+
   for(i=0;i<*n-1;i++)
     if(secsign[i]*f[i+1]<-1e-07)
       {
+
       printf("COINV %d hurt %3.15f\n",i,f[i+1]);
       gets(dummy);
       }
   }
-  
+*/  
 
 
 

@@ -6,7 +6,7 @@
 Applies the taut string method to one-dimensional data.
 }
 \usage{
-pmden(x, DISCR=FALSE,verbose = FALSE, bandwidth=-1, extrema.nr = -1, accuracy = mad(x)/1000,  extrema.mean = TRUE,maxkuipnr=19,asympbounds=FALSE, tolerance = 0.001)
+pmden(x, DISCR=FALSE,verbose = FALSE, bandwidth=-1, extrema.nr = -1, accuracy = mad(x)/1000,  extrema.mean = TRUE,maxkuipnr=19,asympbounds=FALSE, tolerance = 1e-08)
 
 }
 %- maybe also `usage' for other objects documented here.
@@ -38,7 +38,7 @@ when extrema.nr is greater than 0.}
 noise}
 }
 \references{Davies, P. L. and Kovac, A. (2003) Densities, Spectral Densities and Modality}
-\author{Arne Kovac \email{Arne.Kovac@uni-essen.de}}
+\author{Arne Kovac \email{A.Kovac@bristol.ac.uk}}
 \seealso{\code{\link{pmreg}},\code{\link{l1pmreg}},\code{\link{pmspec}}}
 
 \examples{

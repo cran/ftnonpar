@@ -1,28 +1,25 @@
-\name{l1pmreg}
-\alias{l1pmreg}
-\alias{quantpmreg}
+\name{genpmreg}
+\alias{genpmreg}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{Piecewise monotone nonparameric quantile regression}
+\title{Piecewise monotone regression with generalised taut strings}
 \description{
-Applies the generalized taut string method to quantile regression.   
+Applies the generalised taut string method to one-dimensional data.
 }
 \usage{
-quantpmreg(y, beta = 0.5, squeezing.factor = 0.5, verbose = FALSE, localsqueezing = TRUE, DYADIC = TRUE, thr.const = 2, extrema.nr = -1, bandwidth = -1,SETTOMEAN = FALSE, method = 1, ...)
-l1pmreg(y, beta=0.5, squeezing.factor = 0.5, verbose = FALSE, localsqueezing = TRUE, DYADIC = TRUE, thr.const = 2, extrema.nr = -1, bandwidth = -1,SETTOMEAN = FALSE, method = 1, ...)
+genpmreg(y, beta = 0.5, squeezing.factor = 0.5, verbose = FALSE, localsqueezing = TRUE, DYADIC = TRUE, thr.const = 2, extrema.nr = -1, bandwidth = -1, SETTOMEAN = FALSE, method = 2, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{y}{observed values (ordered by value of independent variable)}
-  \item{beta}{quantile. The default is 0.5 which corresponds to 
-the robust taut string.}
+  \item{beta}{If method=1 specifies the quantile}
   \item{squeezing.factor}{The amount of decrement applied to the bandwidthes}
   \item{verbose}{logical, if T progress (for each iteration) is illustrated grahically}
   \item{localsqueezing}{logical, if T (default) the bandwidth is changed
 locally.}
-  \item{DYADIC}{logical, if T (default) the multiresolution criterion
-is only verified on intervals with dyadic endpoints.}
-  \item{thr.const}{smoothing parameter for the multiresoultion criterion
-(should be approximately 2)}
+  \item{DYADIC}{If T checks the multiresolution criterion only on
+dyadic intervals, otherwise all intervals are checked}
+  \item{thr.const}{smoothing parameter for the multiresolution criterion
+(should be approximately 2.5)}
   \item{extrema.nr}{if set to a positive integer an approximation with
 the specified number of local extreme values is calculated}
   \item{bandwidth}{if set to a positive value the specified bandwidth is
@@ -37,17 +34,32 @@ on the interval where the extremum is taken.}
 \value{
 A list with components
   \item{y}{The approximation of the given data}
-  \item{lambda}{The final values of lambda}
+  \item{lambda}{Values for lambda used}
   \item{nmax}{Number of local extreme values}
 }
-\references{D\"umbgen, L. and Kovac, A. (2003) Extensions of smoothing via taut strings}     
+\references{D\"umbgen, L. and Kovac, A. (2006) Extensions of smoothing via taut strings}
 \author{Arne Kovac \email{A.Kovac@bristol.ac.uk}}
-\seealso{\code{\link{pmreg}},\code{\link{frun}}}
+\seealso{\code{\link{pmreg}}}
 \examples{
+data(djdata)
+par(mfrow=c(2,2))
+plot(djblocks,col="grey")
+lines(genpmreg(djblocks,verbose=FALSE,method=2,thr.const=2.5)$y,col="red")
+title("Usual taut string method")
+ind <- sample(1:length(djblocks),300)
+djblocks[ind] <- djblocks[ind]+rnorm(length(ind),0,100)
+plot(djblocks,col="grey")
+lines(genpmreg(djblocks,verbose=FALSE,method=2)$y,col="red")
+title("Usual taut string method with outliers")
+plot(djblocks,col="grey")
+lines(genpmreg(djblocks,verbose=FALSE,method=1)$y,col="red")
+title("Robust taut string method with outliers")
+plot(djblocks,col="grey",ylim=c(-10,10))
+lines(genpmreg(djblocks,verbose=FALSE,method=1)$y,col="red")
+title("Again robust taut string method, different scaling of y-axis")
 }
 \keyword{ smooth }% at least one, from doc/KEYWORDS
 \keyword{ nonparametric }% __ONLY ONE__ keyword per line
 \keyword{ regression }% __ONLY ONE__ keyword per line
 \keyword{ models }% __ONLY ONE__ keyword per line
 \keyword{ robust }% __ONLY ONE__ keyword per line
-

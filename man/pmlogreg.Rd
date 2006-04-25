@@ -36,7 +36,7 @@ A list with components
   \item{knotsind}{Indices of knot points}
   \item{knotsy}{y-koordinates of knots of the taut string}
 }
-\author{Arne Kovac \email{Arne.Kovac@uni-essen.de}}
+\author{Arne Kovac \email{A.Kovac@bristol.ac.uk}}
 \seealso{\code{\link{l1pmreg}},\code{\link{pmden}},\code{\link{pmspec}}}
 
 \examples{

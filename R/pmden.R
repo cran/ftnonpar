@@ -1,14 +1,14 @@
 "pmden" <-
 function (x, DISCR=FALSE,verbose = FALSE, bandwidth = -1, extrema.nr = -1, accuracy = mad(x)/1000, 
-    extrema.mean = TRUE, maxkuipnr = 19, asympbounds = FALSE, tolerance = 0.001) 
+    extrema.mean = TRUE, maxkuipnr = 19, asympbounds = FALSE, tolerance = 1e-08) 
 {
     nsamp <- length(x)
     if (asympbounds || nsamp > max(kuipdiffbounds.x)) 
-        currbounds <- grenzen[length(kuipdiffbounds.x), ] * sqrt(max(kuipdiffbounds.x))/sqrt(nsamp)
+        currbounds <- kuipdiffbounds[length(kuipdiffbounds.x), ] * sqrt(max(kuipdiffbounds.x))/sqrt(nsamp)
     else {
         currbounds <- double(maxkuipnr)
         for (i in 1:maxkuipnr) currbounds[i] <- approx(kuipdiffbounds.x, 
-            kuipdiffbounds[, i], nsamp)$y
+            kuipdiffbounds[, i], nsamp, rule=2)$y
     }
     if (maxkuipnr > dim(kuipdiffbounds)[2]) 
         stop("maxkuipnr is too large")

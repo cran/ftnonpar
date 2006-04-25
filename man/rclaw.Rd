@@ -13,7 +13,7 @@ rclaw(n)
   \item{n}{Sample size}
 }
 \references{Marron, J. S. and Wand, M. P. (1992) Exact mean integrated squared error}
-\author{Arne Kovac \email{Arne.Kovac@uni-essen.de}}
+\author{Arne Kovac \email{A.Kovac@bristol.ac.uk}}
 \seealso{\code{\link{dclaw}}}
 
 \examples{

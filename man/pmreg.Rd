@@ -7,8 +7,8 @@ Applies the taut string method to one-dimensional data.
 }
 \usage{
 pmreg(y, thr.const=2.5, verbose=FALSE, extrema.nr=-1, bandwidth=-1, 
-sigma=-1, localsqueezing=TRUE, squeezing.factor=0.5, tolerance=0.001,
-extrema.mean=TRUE)
+sigma=-1, localsqueezing=TRUE, squeezing.factor=0.5, tolerance=1e-08,
+extrema.mean=TRUE,DYADIC=TRUE)
 }
 %- maybe also `usage' for other objects documented here.
 \arguments{
@@ -29,6 +29,7 @@ when extrema.nr is greater than 0.}
   \item{extrema.mean}{logical, if T (default) the value of the taut string
 approximation at local extreme values is set to the mean of the observations
 on the interval where the extremum is taken.}
+  \item{DYADIC}{If TRUE the multiresolution constraints are only checked on dyadic intervals.}
 }
 \value{
 A list with components
@@ -40,7 +41,7 @@ A list with components
   \item{knotsy}{y-koordinates of knots of the taut string}
 }
 \references{Davies, P. L. and Kovac, A. (2001) Local Extremes, Runs, Strings and Multiresolution (with discussion) Annals of Statistics. 29. p1-65}
-\author{Arne Kovac \email{Arne.Kovac@uni-essen.de}}
+\author{Arne Kovac \email{A.Kovac@bristol.ac.uk}}
 \seealso{\code{\link{mintvmon}},\code{\link{l1pmreg}},\code{\link{pmden}},\code{\link{pmspec}}}
 
 \examples{

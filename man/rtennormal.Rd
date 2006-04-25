@@ -11,7 +11,7 @@ rtennormal(n)
 \arguments{
   \item{n}{Sample size}
 }
-\author{Arne Kovac \email{Arne.Kovac@uni-essen.de}}
+\author{Arne Kovac \email{A.Kovac@bristol.ac.uk}}
 \seealso{\code{\link{rclaw}}}
 
 \examples{

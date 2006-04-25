@@ -19,7 +19,7 @@ metric. The usual Kuiper metric is obtained by the default value 1.}
   \item{b     }{The right borders of the intervals where the maximum is obtained.}
 }
 \references{Davies, P. L. and Kovac, A. (2001) Densities, Spectral Densities and Modality}
-\author{Arne Kovac \email{Arne.Kovac@uni-essen.de}}
+\author{Arne Kovac \email{A.Kovac@bristol.ac.uk}}
 \seealso{\code{\link{pmden}}}
 
 \examples{

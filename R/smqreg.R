@@ -51,7 +51,7 @@ function (x, verbose = FALSE, bandwidth = -1,
 "smqreg" <-
 function (y, thr.const = 2.5, verbose = FALSE,  
     bandwidth = -1, sigma = -1, localsqueezing = TRUE, squeezing.factor = 0.5, DYADIC=TRUE, 
-    firstlambda=100,smqeps=1/length(y),fsign=double(0),gensign=TRUE,...) 
+    firstlambda=100,smqeps=1/length(y),fsign=double(0),gensign=TRUE,tolerance=1e-12,...) 
 {
     n <- length(y)
     lambda <- rep(firstlambda,n-1)
@@ -63,7 +63,7 @@ function (y, thr.const = 2.5, verbose = FALSE,
       fsign <- gensign(y,thr.const=thr.const,extrema.mean=TRUE,sigma=sigma,localsqueezing=localsqueezing,squeezing.factor=squeezing.factor)
 
     repeat {
-        f <- smqnew(y=y,lambda=lambda,eps=smqeps,fsign=fsign)
+        f <- smqnew(y=y,lambda=lambda,eps=smqeps,fsign=fsign,tolerance=tolerance)
 
         if (bandwidth < 0) {
             residuals <- y - f
@@ -232,14 +232,14 @@ list(x=xeval,y=tmp$f)
 }
 
 "smqnew" <-
-function(y,lambda,eps=1,fsign)
+function(y,lambda,eps=1,fsign,tolerance=1e-12)
 {
 n <- length(y)
 if(length(fsign)==0)
   fsign<-rep(-1,n-1)
 if(length(eps)==1)
   eps <- rep(eps,n-1)
-tmp <- .C("smqnew",y=as.double(y),f=double(n),as.integer(n),as.double(lambda),as.double(eps),as.integer(fsign),PACKAGE="ftnonpar")
+tmp <- .C("smqnew",y=as.double(y),f=double(n),as.integer(n),as.double(lambda),as.double(eps),as.integer(fsign),as.double(tolerance),PACKAGE="ftnonpar")
 
 
 tmp$f

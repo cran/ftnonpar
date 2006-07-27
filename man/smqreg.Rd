@@ -8,7 +8,8 @@ Applies the smooth taut string method to one-dimensional data.
 \usage{
 smqreg(y, thr.const=2.5, verbose=FALSE, bandwidth=-1, 
 sigma=-1, localsqueezing=TRUE, squeezing.factor=0.5, DYADIC=TRUE,
-firstlambda=100,smqeps=1/length(y),fsign=double(0),gensign=TRUE,...)
+firstlambda=100,smqeps=1/length(y),fsign=double(0),gensign=TRUE,
+tolerance = 1e-12,...)
 }
 %- maybe also `usage' for other objects documented here.
 \arguments{
@@ -29,6 +30,8 @@ locally.}
 Otherwise no constraint at this position.}
   \item{gensign}{If TRUE the taut string method is used to automatically 
 produce suitable monotonicity constraints.}
+  \item{tolerance}{Precision for the nested intervals for solving the 
+minimisation problem.}
   \item{\dots}{Passed to the plot command if verbose=T.}
 }
 \value{

@@ -6,7 +6,7 @@
 
 void R_CheckUserInterrupt(void);
 
-void smqnew(double *y, double *f, int *n, double *lambda, double *eps, int *fsign)
+void smqnew(double *y, double *f, int *n, double *lambda, double *eps, int *fsign,double *tol)
   {
   int i,l,k,j;
   double z,currsum;
@@ -27,7 +27,7 @@ void smqnew(double *y, double *f, int *n, double *lambda, double *eps, int *fsig
 
 if(ls[l]>us[l]) puts("ERROR");
 
-    while(us[l]-ls[l]>1e-12)
+    while(us[l]-ls[l]>*tol)
       {
       f[l] = 0.5*(us[l]+ls[l]);
       k = l+1;

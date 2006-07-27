@@ -1,6 +1,7 @@
 "pmden" <-
 function (x, DISCR=FALSE,verbose = FALSE, bandwidth = -1, extrema.nr = -1, accuracy = mad(x)/1000, 
-    extrema.mean = TRUE, maxkuipnr = 19, asympbounds = FALSE, tolerance = 1e-08) 
+    extrema.mean = TRUE, maxkuipnr = 19, asympbounds = FALSE, tolerance = 1e-08,
+localsq=TRUE,locsq.factor=0.9) 
 {
     nsamp <- length(x)
     if (asympbounds || nsamp > max(kuipdiffbounds.x)) 
@@ -97,13 +98,46 @@ function (x, DISCR=FALSE,verbose = FALSE, bandwidth = -1, extrema.nr = -1, accur
             }
         }
         else {
-            diff <- cumsum(dataemp) - lastunif
-            currkkuip <- kkuip(diff, maxkuipnr)$met
-            kuipinds <- c(currkkuip[1], currkkuip[-1] - currkkuip[-maxkuipnr]) > 
-                currbounds + 1e-08
-            if (sum(kuipinds) == 0) 
+             diff <- cumsum(dataemp) - lastunif
+             currkkuip <- kkuip(diff, maxkuipnr)$met
+             kuipinds <- c(currkkuip[1], currkkuip[-1] - currkkuip[-maxkuipnr]) > currbounds + 1e-08
+            if (sum(kuipinds) != 0)
+              eps[eps > 0] <- (currbounds[kuipinds])[1]/2
+            else if(localsq)
+              {
+              irmax <- floor(log(nsamp))+3
+              icomax <- 1
+              prp <- exp(-1)
+              currsum <- 2*exp(-1)
+
+              while(log(currsum) < log(0.95)/nsamp)
+                {
+                icomax <- icomax+1
+                prp <- prp/icomax
+                currsum <- currsum + prp
+                }
+
+              kni <- rep(0,nsamp)
+              ind1 <- diff(kni,lag=1)>0.04/(nsamp^2)
+              if(sum(ind1)>0)
+              kni[c(FALSE,ind1)|c(ind1,FALSE)] <- 1
+              if(nsamp >= 3)
+                {
+                ind2 <- diff(kni,lag=2)>0.25/(nsamp^1.5)
+                if(sum(ind2)>0)
+                  kni[c(FALSE,FALSE,ind2)|c(FALSE,ind2,FALSE)|c(ind2,FALSE,FALSE)] <- 1
+                }
+
+              tmp <- .Fortran("denlocal",as.double(lastunif),kni=as.integer(kni),as.integer(nsamp), icomax=as.integer(icomax),irmax=as.integer(irmax),PACKAGE="ftnonpar")
+
+              if(sum(tmp$kni)==0)
                 break
-            eps[eps > 0] <- (currbounds[kuipinds])[1]/2
+              else
+                eps[tmp$kni == 1] <- eps[tmp$kni == 1] * locsq.factor
+              }
+            else
+              break
+
         }
         if (verbose) {
             print("Press Enter")

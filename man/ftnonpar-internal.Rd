@@ -28,7 +28,7 @@ settomean(f, y)
 gensign(y,...)
 gendensgn(x,...)
 smqden(x,lambda,eps=1,fsign=double(0))
-smqnew(y,lambda,eps=1,fsign)
+smqnew(y,lambda,eps=1,fsign,tolerance = 1e-12)
 nondymwdr(y, thresh, firstwidth = 1)
 findmod(y,tol=1e-05)
 }

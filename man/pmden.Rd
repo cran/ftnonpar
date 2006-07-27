@@ -6,9 +6,10 @@
 Applies the taut string method to one-dimensional data.
 }
 \usage{
-pmden(x, DISCR=FALSE,verbose = FALSE, bandwidth=-1, extrema.nr = -1, accuracy = mad(x)/1000,  extrema.mean = TRUE,maxkuipnr=19,asympbounds=FALSE, tolerance = 1e-08)
+pmden(x, DISCR=FALSE,verbose = FALSE, bandwidth=-1, extrema.nr = -1, accuracy = mad(x)/1000,  extrema.mean = TRUE,maxkuipnr=19,asympbounds=FALSE, tolerance = 1e-08,localsq=TRUE,locsq.factor=0.9)
 
 }
+
 %- maybe also `usage' for other objects documented here.
 \arguments{
   \item{x}{observed values}
@@ -28,6 +29,10 @@ for the Kuiper criterion. Otherwise simulated bounds for various sample sizes ar
 for the size of the data x}
   \item{tolerance}{Accuracy used for the determination of the bandwidth
 when extrema.nr is greater than 0.}
+  \item{localsq}{If set to TRUE (default) performs, if necessary, additional 
+local squeezing after the Kuiper metrics are small enough}
+  \item{locsq.factor}{The amount of decrement applied to the bandwidthes if
+local squeezing is carried out.}
 }
 \value{
   \item{y}{values of the density approximation between the observations}

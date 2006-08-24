@@ -111,10 +111,10 @@ while(actind<=*n)
 free(knotssign);
 }
 
-void multiwdwr(double *y, int *n, double *thresh, int *firstwidth)
+void multiwdwr(double *y, int *n, double *thresh, int *firstwidth, double *dyadfactor)
 {
-int j, actwidth, leftind, rightind;
-double *ysum;
+int j, leftind, rightind;
+double *ysum, actwidth;
 
 ysum=malloc((*n+1)*sizeof(double));
 ysum[0]=0;
@@ -123,7 +123,7 @@ for(j=1;j<=*n;j++)
 for(j=0;j<*n;j++)
   y[j]=0.0;
 
-for(actwidth=*firstwidth;actwidth<=*n;actwidth*=2)
+for(actwidth=*firstwidth;actwidth<=*n;actwidth*=(*dyadfactor))
   for(leftind=0,rightind=actwidth;leftind<*n;leftind=rightind,rightind+=actwidth)
     {
     if(rightind>*n) rightind= *n;

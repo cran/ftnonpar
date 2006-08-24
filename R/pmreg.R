@@ -1,13 +1,15 @@
 "multiwdwr" <-
-function (y, thresh,firstwidth=1) 
+function (y, thresh,firstwidth=1,dyad.factor=1.1) 
 {
     .C("multiwdwr", y = as.double(y), as.integer(length(y)), 
-        as.double(thresh),as.integer(firstwidth),PACKAGE="ftnonpar")$y
+        as.double(thresh),as.integer(firstwidth),as.double(dyad.factor),
+        PACKAGE="ftnonpar")$y
 }
 "pmreg" <-
-function (y, thr.const = 2.5, verbose = FALSE, extrema.nr = -1, 
+function (y, thr.const = 2.3, verbose = FALSE, extrema.nr = -1, 
     bandwidth = -1, sigma = -1, localsqueezing = TRUE, 
-    squeezing.factor = 0.5,tolerance=1e-08,extrema.mean = TRUE,DYADIC=TRUE) 
+    squeezing.factor = 0.5,tolerance=1e-08,extrema.mean = TRUE,DYADIC=TRUE,
+    dyad.factor = 1.1,POSTISO=TRUE) 
 {
  if (extrema.nr > -1) localsqueezing <- FALSE
     nsamp <- length(y)
@@ -20,21 +22,21 @@ function (y, thr.const = 2.5, verbose = FALSE, extrema.nr = -1,
     fdist <- c(0, cumsum(y))/nsamp
     fdistx <- seq(0,1,len=nsamp+1)
     if (bandwidth < 0) 
-        d <- 0.5 * (max(fdist) - min(fdist))
+        d <- max(fdist) - min(fdist)
     else d <- bandwidth
     currprecision <- d
     eps <- rep(d, nsamp + 1)
     lower <- fdist - d
     upper <- fdist + d
     repeat {
-        tstring <- tautstring(fdistx, fdist, lower, upper, 0, fdist[nsamp + 1],extrmean=extrema.mean)
+        tstring <- tautstring(fdistx, fdist, lower, upper, 0, fdist[nsamp + 1],extrmean=FALSE)
         y.string <- tstring$string
         if((bandwidth<0)&&(extrema.nr<0))
           {
           residuals <- y - y.string
           residuals <- residuals - mean(residuals)
           if(DYADIC) 
-            residuals.wr <- multiwdwr(residuals, sqrt(thr.const * log(nsamp)) * sigma)
+            residuals.wr <- multiwdwr(residuals, sqrt(thr.const * log(nsamp)) * sigma,dyad.factor=dyad.factor)
           else
             residuals.wr <- nondymwdr(residuals, sqrt(thr.const * log(nsamp)) * sigma)
           }
@@ -74,7 +76,20 @@ function (y, thr.const = 2.5, verbose = FALSE, extrema.nr = -1,
           ind <- (abs(residuals.wr) > 1e-10)
           ind2 <- c(FALSE, ind) | c(ind, FALSE)
           if (length(ind[ind == TRUE]) == 0) 
+            {
+            tstring.bak <- tstring
+            while(tstring$nmax == tstring.bak$nmax)
+              {
+              tstring.bak <- tstring
+              eps <- eps * squeezing.factor
+              lower <- fdist - eps
+              upper <- fdist + eps
+              tstring <- tautstring(fdistx, fdist, lower, upper, 0, fdist[nsamp + 1], extrmean = FALSE)
+              }
+            tstring <- tstring.bak
+            y.string <- tstring$string
             break
+            }
           if (localsqueezing) 
             eps[ind2] <- eps[ind2] * squeezing.factor
           else
@@ -83,6 +98,11 @@ function (y, thr.const = 2.5, verbose = FALSE, extrema.nr = -1,
         lower <- fdist - eps
         upper <- fdist + eps
         }
+    if(extrema.mean)
+      y.string <- settomean(y.string,y)
+    if(POSTISO)
+      y.string <- isoanti(y,y.string)
+
     list(y = y.string, sigma = sigma, widthes = upper - fdist, 
         nmax = tstring$nmax, knotsind = tstring$knotsind, knotsy = tstring$knotsy)
 }
@@ -170,6 +190,42 @@ function (y, thr.const = 2.5, verbose = FALSE, extrema.nr = -1, bandwidth = -1,
     }
     list(y = y.string, widthes = upper - fdist, 
         nmax = tstring$nmax, knotsind = tstring$knotsind, knotsy = tstring$knotsy)
+}
+"isoanti" <-
+function(x,fhat){
+
+        n <- length(x)
+        kni <- c(1,(2:n)[fhat[-1]!=fhat[-n]],n+1)     
+        nkn <- length(kni) - 1
+        if (nkn >= 3) {
+            kny <- fhat[kni[1:nkn]]
+            currkn <- 1
+            while (currkn < nkn) {
+                currsign <- sign(kny[currkn + 1] - kny[currkn])
+                nextkn <- currkn + 1
+                while ((nextkn < nkn) && ((currsign * (kny[nextkn +
+                  1] - kny[nextkn]) > 0))) nextkn <- nextkn +
+                  1
+                if (nextkn - currkn > 1) {
+                  if (currsign == 1)
+                    tmp <- isoreg(x[kni[currkn]:(kni[nextkn +
+                      1] - 1)])$yf
+                  else tmp <- -isoreg(-x[kni[currkn]:(kni[nextkn +
+                    1] - 1)])$yf
+                  maxy <- max(fhat[kni[currkn]:(kni[nextkn +
+                    1] - 1)])
+                  miny <- min(fhat[kni[currkn]:(kni[nextkn +
+                    1] - 1)])
+                  if (max(tmp) > maxy)
+                    tmp[tmp > maxy] <- maxy
+                  if (min(tmp) < miny)
+                    tmp[tmp < miny] <- miny
+                  fhat[kni[currkn]:(kni[nextkn + 1] - 1)] <- tmp
+                }
+                currkn <- nextkn
+            }
+        }
+fhat
 }
 .First.lib <- function(lib, pkg) {
   if(version$major==0)

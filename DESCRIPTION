@@ -1,6 +1,6 @@
 Package: ftnonpar
-Version: 0.1-7
-Date: 2006-08-24
+Version: 0.1-8
+Date: 2007-12-04
 Title: Features and Strings for Nonparametric Regression
 Author: Laurie Davies <Laurie.Davies@uni-essen.de>
          Arne Kovac <A.Kovac@bristol.ac.uk>  
@@ -17,4 +17,4 @@ License: GPL version 2 or newer
 Copyright: Copyright (C) 2006 University of Duisburg-Essen, Essen,
   Germany, University of Bristol, Bristol, United Kingdom
 URL: http://www.maths.bris.ac.uk/~maxak/ftnonpar.html
-Packaged: Fri Aug 25 18:49:38 2006; root
+Packaged: Tue Dec  4 11:35:11 2007; maxak

@@ -81,7 +81,8 @@ while(actind<=*n)
         knotsind[*nknots] = actind;
         knotsy[*nknots] = *yn;
         knotst[*nknots]=t[actind-1]; 
-        knotssign[*nknots]=lastsign; 
+        /*knotssign[*nknots]=lastsign; */
+        knotssign[*nknots]=0; 
         (*nknots)++;
 	}
       else

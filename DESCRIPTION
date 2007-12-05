@@ -1,6 +1,6 @@
 Package: ftnonpar
-Version: 0.1-8
-Date: 2007-12-04
+Version: 0.1-81
+Date: 2007-12-05
 Title: Features and Strings for Nonparametric Regression
 Author: Laurie Davies <Laurie.Davies@uni-essen.de>
          Arne Kovac <A.Kovac@bristol.ac.uk>  
@@ -13,8 +13,8 @@ Description: The package contains R-functions to perform the
      Kovac, A. (2006) Smooth functions and local extreme values. Computational Statistics and Data Analysis (to appear)
      D\"umbgen, L. and Kovac, A. (2006) Extensions of smoothing via taut strings
      Davies, P. L. (1995) Data features. Statistica Neerlandica 49,185-245.
-License: GPL version 2 or newer
+License: GPL (>= 2)
 Copyright: Copyright (C) 2006 University of Duisburg-Essen, Essen,
   Germany, University of Bristol, Bristol, United Kingdom
 URL: http://www.maths.bris.ac.uk/~maxak/ftnonpar.html
-Packaged: Tue Dec  4 11:35:11 2007; maxak
+Packaged: Wed Dec  5 10:39:35 2007; root

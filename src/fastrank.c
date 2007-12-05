@@ -1,6 +1,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 void sortx(double *x, double *sortedx, int *n, int *logn)
   {

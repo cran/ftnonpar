@@ -3,7 +3,7 @@
 #include "stdio.h"
 #include <R_ext/Utils.h>
      
-void R_CheckUserInterrupt(void),fastrank();
+void R_CheckUserInterrupt(void),fastrank(),sortx();
 
 int dcomp(double *a, double *b)
   {

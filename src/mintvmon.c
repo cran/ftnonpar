@@ -509,7 +509,8 @@ void mintvmon(int *n, double *f, int *derivsign, int *secsign, int *method, int 
 
     /* Calculate convexity constraints */
  
-    if(lpl == 1)
+    /*if(lpl == 1)*/
+    if(*outnact == 1)
       {
       puts("Constant fit. Not really implemented, but easy.");
       }

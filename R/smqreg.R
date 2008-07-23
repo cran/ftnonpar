@@ -5,11 +5,11 @@ function (x, verbose = FALSE, bandwidth = -1,
     nsamp <- length(x)
     lambda <- rep(firstlambda,nsamp-2)
     if (asympbounds || nsamp > max(kuipdiffbounds.x)) 
-        currbounds <- grenzen[length(kuipdiffbounds.x), ] * sqrt(max(kuipdiffbounds.x))/sqrt(nsamp)
+        currbounds <- kuipdiffbounds[length(kuipdiffbounds.x), ] * sqrt(max(kuipdiffbounds.x))/sqrt(nsamp)
     else {
         currbounds <- double(maxkuipnr)
         for (i in 1:maxkuipnr) currbounds[i] <- approx(kuipdiffbounds.x, 
-            kuipdiffbounds[, i], nsamp)$y
+            kuipdiffbounds[, i], nsamp, rule = 2)$y
     }
     if (maxkuipnr > dim(kuipdiffbounds)[2]) 
         stop("maxkuipnr is too large")

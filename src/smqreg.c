@@ -165,7 +165,7 @@ for(j=0;j<*n;j++)
   y[j]=0.0;
                                                                                 
 for(actwidth=1;actwidth<=*n;actwidth++)
-  for(leftind=0,rightind=actwidth;leftind<*n;leftind=rightind,rightind+=actwidth)
+  for(leftind=0,rightind=actwidth;rightind<=*n;leftind++,rightind++)
     {
     if(rightind>*n) rightind= *n;
     if(fabs((ysum[rightind]-ysum[leftind])/sqrt((double)(rightind-leftind)))> *thresh)

@@ -109,7 +109,7 @@ function (y, thr.const = 2.3, verbose = FALSE, extrema.nr = -1,
 
 "tautstring" <-
 function (ttt, fdist, y.low, y.up, y1 = 0.5 * (y.low[1] + y.up[1]), 
-    yn = 0.5 * (y.low[length(x)] + y.up[length(x)]),extrmean=TRUE)  
+    yn = 0.5 * (y.low[length(y.low)] + y.up[length(y.up)]),extrmean=TRUE)  
 {
         tmp <- .C("tautstring", as.double(fdist), as.double(ttt), 
             as.double(y.low), as.double(y.up), as.double(y1), 

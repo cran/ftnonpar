@@ -51,9 +51,9 @@ function (y, beta = 0.5, squeezing.factor = 0.5, verbose = FALSE,
 
         if (verbose) {
             par(mfrow = c(3, 1))
-            plot(y, col = "lightgrey",xlim=xlim,...)
+            plot(y, col = "lightgrey",...)
             lines(y.string, col = "red")
-            plot(lambda,ty="l",xlim=xlim,...)
+            plot(lambda,ty="l",...)
             plot(y.mr,col="green",ty="l")
             print(c("lambda=", min(lambda)))
             print("Press Enter")

@@ -23,7 +23,7 @@ kuipdiffbounds
 kuipdiffbounds.x
 multiwdwr(y, thresh,firstwidth=1,dyad.factor=1.1)
 tautstring(ttt, fdist, y.low, y.up, y1 = 0.5 * (y.low[1] + y.up[1]),
-    yn = 0.5 * (y.low[length(x)] + y.up[length(x)]),extrmean=TRUE)
+    yn = 0.5 * (y.low[length(y.low)] + y.up[length(y.up)]),extrmean=TRUE)
 settomedian(f, y)
 settomean(f, y)
 gensign(y,...)

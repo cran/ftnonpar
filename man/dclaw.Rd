@@ -4,7 +4,6 @@
 \title{The Claw Distribution}
 \description{
 Generates a sample from the claw distribution.}
-}
 \usage{
 dclaw(x)
 }

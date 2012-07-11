@@ -7,8 +7,8 @@ Applies the smooth taut string method to one-dimensional data.
 }
 \usage{
 smdenreg(x, verbose = FALSE, bandwidth=-1, maxkuipnr=19,asympbounds=FALSE, 
-squeezing.factor=0.9, firstlambda=10,smqeps=1/length(x),fsign=double(0),gensign=TRUE,...)
-
+squeezing.factor=0.9, firstlambda=10,smqeps=1/length(x),fsign=double(0),
+gensign=TRUE,...)
 }
 %- maybe also `usage' for other objects documented here.
 \arguments{

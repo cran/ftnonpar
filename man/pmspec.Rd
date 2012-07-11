@@ -29,7 +29,6 @@ pmspec(x, pks=0, alpha=0.9, sqzf=0.9, mult=0, lcl=0, ln=0, fig = 0, pow=10^-2)
     log scale. If ln = F then no transformation is performed \code{ln}}  
   \item{pow}{ Peaks with a power less than pow * total power will be ignored}
 }
-\details{}
 \value{
   \item{edf   }{Emprical spectral density}
   \item{df    }{String density}
@@ -44,8 +43,6 @@ pmspec(x, pks=0, alpha=0.9, sqzf=0.9, mult=0, lcl=0, ln=0, fig = 0, pow=10^-2)
 \author{Laurie Davies \email{Laurie.Davies@uni-essen.de}}
 \seealso{\code{\link{pmreg}},\code{\link{l1pmreg}},\code{\link{pmden}}}
 
-\examples{
-}
 
 \keyword{ smooth }% at least one, from doc/KEYWORDS
 \keyword{ nonparametric }% __ONLY ONE__ keyword per line

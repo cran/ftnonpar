@@ -390,7 +390,6 @@ void mintvmon(int *n, double *f, int *derivsign, int *secsign, int *method, int 
  
     if(lpl == 1)
       {
-      puts("Constant fit. Not really implemented, but easy.");
       }
     else
       {
@@ -457,7 +456,6 @@ void mintvmon(int *n, double *f, int *derivsign, int *secsign, int *method, int 
  
     if(lpl == 1)
       {
-      puts("Constant fit. Not really implemented, but easy.");
       }
     else
       {
@@ -512,7 +510,6 @@ void mintvmon(int *n, double *f, int *derivsign, int *secsign, int *method, int 
     /*if(lpl == 1)*/
     if(*outnact == 1)
       {
-      puts("Constant fit. Not really implemented, but easy.");
       }
     else
       {
@@ -619,7 +616,6 @@ nact += nconvconsts;
 
 if(nact != lpl)
   {
-  puts("nact != lpl");
   return;
   }
 

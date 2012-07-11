@@ -52,8 +52,6 @@ MEDIAN OF THE y-VALUES IN THESE INTERVALS IS A REASONABLE
 CHOICE. }
 
 \seealso{\code{\link{mintvmon}},\code{\link{pmreg}},\code{\link{l1pmreg}}}
-\examples{
-}
 \keyword{ smooth }% at least one, from doc/KEYWORDS
 \keyword{ nonparametric }% __ONLY ONE__ keyword per line
 \keyword{ regression }% __ONLY ONE__ keyword per line

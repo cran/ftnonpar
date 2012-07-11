@@ -10,9 +10,12 @@ void smqnew(double *y, double *f, int *n, double *lambda, double *eps, int *fsig
   {
   int i,l,k,j;
   double z,currsum;
-  double ls[*n],us[*n];
+  double *ls,*us;
 
-  for(l=0;l<*n-1;l++)
+  ls = malloc((*n)*sizeof(double));
+  us = malloc((*n)*sizeof(double));
+
+  for(l=0;l<*n;l++)
     {
     ls[l]=y[l]-100;
     us[l]=y[l]+100;
@@ -25,7 +28,7 @@ void smqnew(double *y, double *f, int *n, double *lambda, double *eps, int *fsig
     if((l>0)&&(fsign[l-1]==0)&&(us[l]>f[l-1]))
       us[l] = f[l-1];
 
-if(ls[l]>us[l]) puts("ERROR");
+/*if(ls[l]>us[l]) puts("ERROR");*/
 
     while(us[l]-ls[l]>*tol)
       {
@@ -74,6 +77,8 @@ if(ls[l]>us[l]) puts("ERROR");
         }
       }
     }
+  free(ls);
+  free(us);
   } 
 
 
@@ -81,9 +86,12 @@ void smqden(double *x, double *xeval, double *f, int *n, double *lambda, double 
   {
   int i,l,k,j;
   double z,currsum;
-  double ls[*n],us[*n];
+  double *ls,*us;
 
-  for(l=0;l<*n-2;l++)
+  ls = malloc((*n)*sizeof(double));
+  us = malloc((*n)*sizeof(double));
+
+  for(l=0;l<*n;l++)
     {
     ls[l]=0;                 
     us[l]=100;          
@@ -96,7 +104,7 @@ void smqden(double *x, double *xeval, double *f, int *n, double *lambda, double 
     if((l>0)&&(fsign[l-1]==0)&&(us[l]>f[l-1]))
       us[l] = f[l-1];
 
-if(ls[l]>us[l]) puts("ERROR");
+/*if(ls[l]>us[l]) puts("ERROR");*/
 
     while(us[l]-ls[l]>1e-12)
       {
@@ -150,6 +158,8 @@ if(ls[l]>us[l]) puts("ERROR");
 
       }
     }
+  free(ls);
+  free(us);
   } 
 
 void nondymwdwr(double *y, int *n, double *thresh, int *firstwidth)

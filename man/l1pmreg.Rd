@@ -43,8 +43,6 @@ A list with components
 \references{D\"umbgen, L. and Kovac, A. (2003) Extensions of smoothing via taut strings}     
 \author{Arne Kovac \email{A.Kovac@bristol.ac.uk}}
 \seealso{\code{\link{pmreg}},\code{\link{frun}}}
-\examples{
-}
 \keyword{ smooth }% at least one, from doc/KEYWORDS
 \keyword{ nonparametric }% __ONLY ONE__ keyword per line
 \keyword{ regression }% __ONLY ONE__ keyword per line

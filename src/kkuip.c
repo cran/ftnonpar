@@ -77,7 +77,7 @@ void kkuip(double *x, int *n, int *kmax, double *norm, int *a, int *b)
 	}
      }
    if(einordnen <0)
-     exit(0L);
+     break; 
    else
    if(einordnen ==k)
      {

@@ -194,14 +194,14 @@ c(50, 100, 200, 500, 1000, 2000, 5000)
 "rtennormal" <-
 function (n)
 {
-    rsamp <- sample(1:10, n, rep = TRUE, prob = rep(0.1, 10))
+    rsamp <- sample(1:10, n, replace = TRUE, prob = rep(0.1, 10))
     mus <- 0.5*(10 * rsamp - 5)
     sigmas <- 1
     rnorm(n, mus, sigmas)
 }
 "rclaw" <- function (n)
 {
-    rsamp <- sample(0:5, n, rep = TRUE, prob = c(0.1, 0.1, 0.1,
+    rsamp <- sample(0:5, n, replace = TRUE, prob = c(0.1, 0.1, 0.1,
         0.1, 0.1, 0.5))
     mus <- double(n)
     sigmas <- double(n)

@@ -1,6 +1,6 @@
 a8ee401e445dab7b35c9e515f0072ddf *COPYRIGHT
-4c116f41da05316580c95f73d86ee8cf *DESCRIPTION
-9fdfeb11f7ddba6f3aab9aaa6b1ac5dd *NAMESPACE
+7589aad097e775208df25049d627565b *DESCRIPTION
+b07dece81e54d8324d6d4fdef3fd9764 *NAMESPACE
 222049282388b92ae6f5feeea3fd839e *R/frun.R
 ddacf0d680d86b8c5aed0db92fb7f1c7 *R/genpmreg.R
 9919bf3bc0d8a5fc4dc49763cda69c55 *R/mintvmon.R
@@ -28,10 +28,10 @@ a2d281df105eca6cd7fbcdfc5ffbd313 *man/genpmreg.Rd
 52f9c8e2de37c22e99c074c7cd865d8a *man/smdenreg.Rd
 d5b379c8d0708491a49293c90e4c8e30 *man/smqreg.Rd
 8e82663e6dda7a9cdc8f49ce97968328 *pmden.R
-0b4b1f9f594f10f1ee9c57b2e18acf9e *src/NPSPCDN.f
-dfaf33a388fb4f220b809bec0af182e9 *src/denlocal.f
+324e4e39829fc032f7b3ddf632943a42 *src/NPSPCDN.f
+1445c262979023a7ef79cebf94c9b0c6 *src/denlocal.f
 9dcc7d8e09a0847812b504e72cf93242 *src/fastrank.c
-dfa458e8f101e77e7bc72d1006cae43f *src/frun.f
+30f8d425553f8c71d1f79816c6cfa62c *src/frun.f
 dfad3297cd6e35c63c0b63ad8444a594 *src/genmrcheck.c
 d7bb837a1e4213648346d28d800b9146 *src/genstring.c
 2d74701fffcab2602fc3a9bdcae4d163 *src/kkuip.c
